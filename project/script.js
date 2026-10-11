@@ -2,6 +2,8 @@
 // Спроектируйте модель данных и переходы между состояниями самостоятельно.
 "use strict"
 
+const STORAGE_KEY = "book"
+
 console.log("Стартовый проект подключен")
 
 const form = document.querySelector(".card-form")
@@ -67,6 +69,9 @@ form.addEventListener("submit", (event) => {
     description: formData.get("description")
   }
 
+  const bookJson = JSON.stringify(book)
+  localStorage.setItem(STORAGE_KEY, bookJson)
+
   savedBook = book
   renderBook(savedBook)
   showState("viewer")
@@ -86,10 +91,19 @@ editButton.addEventListener("click", () => {
 })
 
 deleteButton.addEventListener("click", () => {
+  localStorage.removeItem(STORAGE_KEY)
   savedBook = null
   form.reset()
   showState("empty")
   createButton.focus()
 })
 
-showState("empty")
+const savedBookJson = localStorage.getItem(STORAGE_KEY)
+
+if (savedBookJson) {
+  savedBook = JSON.parse(savedBookJson)
+  renderBook(savedBook)
+  showState("viewer")
+} else {
+  showState("empty")
+}
