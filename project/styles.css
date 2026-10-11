@@ -420,3 +420,32 @@ textarea.field__control {
 .saved-card__description {
   white-space: pre-wrap;
 }
+
+.book-collection__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.book-collection__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.book-collection__item {
+  max-width: 100%;
+}
+
+.book-collection__button {
+  max-width: 100%;
+  padding-block: 12px;
+  overflow-wrap: anywhere;
+}

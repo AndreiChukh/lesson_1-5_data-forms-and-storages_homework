@@ -159,36 +159,39 @@
         <section class="app-state app-state--viewer" data-state-panel="viewer" hidden>
           <p class="app-state__index">03</p>
 
-          <article class="saved-card">
-            <p class="saved-card__label">Сохраненная книга</p>
-            <h3 class="saved-card__title" id="saved-title"></h3>
-
-            <dl class="saved-card__details">
-              <div class="saved-card__row">
-                <dt>Автор</dt>
-                <dd id="saved-author"></dd>
-              </div>
-
-              <div class="saved-card__row">
-                <dt>Жанр</dt>
-                <dd id="saved-genre"></dd>
-              </div>
-
-              <div class="saved-card__row">
-                <dt>Описание</dt>
-                <dd class="saved-card__description" id="saved-description"></dd>
-              </div>
-            </dl>
-
-            <div class="saved-card__actions">
-              <button class="button button--primary" type="button" data-action="edit">
-                Редактировать
-              </button>
-              <button class="button button--danger" type="button" data-action="delete">
-                Удалить
-              </button>
+          <div class="book-collection">
+            <div class="book-collection__header">
+              <button class="button button--primary" type="button" data-action="create">Добавить книгу</button>
+              <ul class="book-collection__list" id="book-list" aria-label="Сохранённые книги"></ul>
             </div>
-          </article>
+
+            <article class="saved-card">
+              <p class="saved-card__label">Сохраненная книга</p>
+              <h3 class="saved-card__title" id="saved-title"></h3>
+
+              <dl class="saved-card__details">
+                <div class="saved-card__row">
+                  <dt>Автор</dt>
+                  <dd id="saved-author"></dd>
+                </div>
+
+                <div class="saved-card__row">
+                  <dt>Жанр</dt>
+                  <dd id="saved-genre"></dd>
+                </div>
+
+                <div class="saved-card__row">
+                  <dt>Описание</dt>
+                  <dd class="saved-card__description" id="saved-description"></dd>
+                </div>
+              </dl>
+
+              <div class="saved-card__actions">
+                <button class="button button--primary" type="button" data-action="edit">Редактировать</button>
+                <button class="button button--danger" type="button" data-action="delete">Удалить</button>
+              </div>
+            </article>
+          </div>
         </section>
     </main>
 
