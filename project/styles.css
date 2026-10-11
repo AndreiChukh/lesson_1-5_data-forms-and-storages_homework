@@ -406,3 +406,17 @@ textarea.field__control {
   }
 }
 
+.card-form__hint {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.saved-card__title {
+  overflow-wrap: anywhere;
+}
+
+.saved-card__description {
+  white-space: pre-wrap;
+}
