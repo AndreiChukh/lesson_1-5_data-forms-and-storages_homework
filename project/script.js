@@ -31,6 +31,17 @@ cancelButton.addEventListener("click", () => {
 
 form.addEventListener("submit", (event) => {
   event.preventDefault()
+
+  const formData = new FormData(form)
+
+  const book = {
+    title: formData.get("title"),
+    author: formData.get("author"),
+    genre: formData.get("genre"),
+    description: formData.get("description")
+  }
+
+  console.log("Данные книги:", book)
 })
 
 showState("empty")
