@@ -3,11 +3,13 @@
 "use strict"
 
 const STORAGE_KEY = "book"
+const HINT_KEY = "book-editor-hint-shown"
 
 console.log("Стартовый проект подключен")
 
 const form = document.querySelector(".card-form")
 const statePanels = document.querySelectorAll("[data-state-panel]")
+const editorHint = document.querySelector("#editor-hint")
 
 const createButton = document.querySelector('[data-action="create"]')
 const cancelButton = document.querySelector('[data-action="cancel"]')
@@ -30,6 +32,16 @@ function showState(state) {
   statePanels.forEach((panel) => {
     panel.hidden = panel.dataset.statePanel !== state
   })
+
+  if (state === "editor") {
+    const hintShown = sessionStorage.getItem(HINT_KEY)
+
+    editorHint.hidden = hintShown === "true"
+
+    if (!hintShown) {
+      sessionStorage.setItem(HINT_KEY, "true")
+    }
+  }
 }
 
 function renderBook(book) {
