@@ -4,6 +4,7 @@
 
 const STORAGE_KEY = "book"
 const HINT_KEY = "book-editor-hint-shown"
+const DRAFT_KEY = "book-draft"
 
 const form = document.querySelector(".card-form")
 const statePanels = document.querySelectorAll("[data-state-panel]")
@@ -25,6 +26,10 @@ const savedAuthor = document.querySelector("#saved-author")
 const savedGenre = document.querySelector("#saved-genre")
 const savedDescription = document.querySelector("#saved-description")
 
+const draftPanel = document.querySelector("#draft-panel")
+const restoreDraftButton = document.querySelector('[data-action="restore-draft"]')
+const discardDraftButton = document.querySelector('[data-action="discard-draft"]')
+
 let books = []
 let selectedBookId = null
 
@@ -41,6 +46,8 @@ function showState(state) {
       sessionStorage.setItem(HINT_KEY, "true")
     }
   }
+
+  renderDraftNotice()
 }
 
 function renderBook(book) {
@@ -100,6 +107,67 @@ function showCollection(bookId = null) {
   showState("viewer")
 }
 
+function renderDraftNotice() {
+  const editorPanel = document.querySelector('[data-state-panel="editor"]')
+  const isEditing = !editorPanel.hidden
+  const hasDraft = sessionStorage.getItem(DRAFT_KEY) !== null
+
+  draftPanel.hidden = isEditing || !hasDraft
+}
+
+function clearDraft() {
+  sessionStorage.removeItem(DRAFT_KEY)
+  renderDraftNotice()
+}
+
+form.addEventListener("input", () => {
+  const formData = new FormData(form)
+
+  const draft = {
+    bookId: selectedBookId,
+    title: formData.get("title"),
+    author: formData.get("author"),
+    genre: formData.get("genre"),
+    description: formData.get("description")
+  }
+
+  sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft))
+  renderDraftNotice()
+})
+
+restoreDraftButton.addEventListener("click", () => {
+  const draftJson = sessionStorage.getItem(DRAFT_KEY)
+
+  if (!draftJson) {
+    return
+  }
+
+  const draft = JSON.parse(draftJson)
+
+  if (draft.bookId !== null && !books.some((book) => book.id === draft.bookId)) {
+    clearDraft()
+    return
+  }
+
+  selectedBookId = draft.bookId
+
+  fillForm(draft)
+  showState("editor")
+  titleInput.focus()
+})
+
+discardDraftButton.addEventListener("click", () => {
+  clearDraft()
+  form.reset()
+  showCollection(selectedBookId)
+
+  if (books.length > 0) {
+    editButton.focus()
+  } else {
+    createButtons[0].focus()
+  }
+})
+
 createButtons.forEach((button) => {
   button.addEventListener("click", () => {
     selectedBookId = null
@@ -110,6 +178,7 @@ createButtons.forEach((button) => {
 })
 
 cancelButton.addEventListener("click", () => {
+  clearDraft()
   form.reset()
   showCollection(selectedBookId)
 
@@ -138,8 +207,10 @@ form.addEventListener("submit", (event) => {
     : books.map((item) => item.id === selectedBookId ? book : item)
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(nextBooks))
-  books = nextBooks
 
+  clearDraft()
+
+  books = nextBooks
   showCollection(book.id)
   editButton.focus()
 })
@@ -159,6 +230,12 @@ deleteButton.addEventListener("click", () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(nextBooks))
   } else {
     localStorage.removeItem(STORAGE_KEY)
+  }
+
+  const draftJson = sessionStorage.getItem(DRAFT_KEY)
+
+  if (draftJson && JSON.parse(draftJson).bookId === selectedBookId) {
+    clearDraft()
   }
 
   books = nextBooks
@@ -186,3 +263,4 @@ if (savedBooksJson) {
 }
 
 showCollection()
+renderDraftNotice()

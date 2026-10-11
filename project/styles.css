@@ -449,3 +449,18 @@ textarea.field__control {
   padding-block: 12px;
   overflow-wrap: anywhere;
 }
+
+.workspace__draft {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 24px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.workspace__draft-text {
+  width: 100%;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}

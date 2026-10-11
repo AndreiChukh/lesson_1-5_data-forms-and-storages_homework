@@ -42,6 +42,12 @@
           <p class="workspace__status" aria-live="polite">Данные еще не проверены</p>
         </header>
 
+        <div class="workspace__draft" id="draft-panel" hidden>
+          <p class="workspace__draft-text">Есть несохранённый черновик книги.</p>
+          <button class="button button--secondary" type="button" data-action="restore-draft">Восстановить черновик</button>
+          <button class="button button--secondary" type="button" data-action="discard-draft">Удалить черновик</button>
+        </div>
+
         <!-- Состояние 1: показывается, когда сохраненных данных нет. -->
         <section class="app-state app-state--empty" data-state-panel="empty">
           <p class="app-state__index">01</p>
